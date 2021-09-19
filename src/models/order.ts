@@ -61,7 +61,6 @@ class OrderStore {
                     `${vString}${index === 0 ? " " : ", "}(${order_id}, ${product_id}, ${quantity})`,
                 "INSERT INTO order_products(order_id, product_id, quantity) VALUES"
             )};`
-            console.log(orderProductQuery);
             await conn.query(orderProductQuery);
             
             conn.release();

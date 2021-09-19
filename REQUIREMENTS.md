@@ -5,38 +5,203 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## API Endpoints
 #### Products
-- Index 
-- Show
-- Create [token required]
+- Index -> GET: `/products`
+  - sample response
+
+    ```
+        [
+            {
+                "id": 1,
+                "name": "Energy Plus",
+                "price": "10",
+                "category": "snacks"
+            },
+            {
+                "id": 2,
+                "name": "Cornelly Cone Ice Cream",
+                "price": "40",
+                "category": "snacks"
+            }
+        ]
+    ```
+
+- Show -> GET: `products/:id`
+   - sample response 
+
+     ```
+        {
+            "id": 3,
+            "name": "Coca Cola 1 Litre",
+            "price": "50",
+            "category": "Soft Drink"
+        }
+     ```
+- Create [token required] -> POST: `products/`
+  - request body
+    ```
+        {
+            name: string,
+            price: string,
+            category: string
+        }
+    ```
+
+  - sample response
+    ```
+        {
+            "id": 2,
+            "name": "Cornelly Cone Ice Cream",
+            "price": "40",
+            "category": "snacks"
+        }
+    ```
 - [OPTIONAL] Top 5 most popular products 
 - [OPTIONAL] Products by category (args: product category)
 
 #### Users
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+- Index [token required] GET: `/users`
+  - sample response
 
+    ```
+        [
+            {
+                "id": 1,
+                "firstname": "John",
+                "lastname": "Doe"
+            },
+            {
+                "id": 2,
+                "firstname": "John",
+                "lastname": "Doe The II"
+            }
+        ]
+    ```
+
+- Show [token required] -> GET: `users/:id`
+   - sample response 
+
+     ```
+        {
+            "id": 1,
+            "firstname": "John",
+            "lastname": "Doe"
+        }
+     ```
+- Create N[token required] -> POST: `users/`
+  - request body
+    ```
+        {
+            firstname: string,
+            lastname: string
+        }
+    ```
+
+  - sample response
+    ```
+        {
+            "id": 1,
+            "firstname": "John",
+            "lastname": "Doe"
+        }
+    ```
 #### Orders
-- Current Order by user (args: user id)[token required]
+- Current Order by user (args: user id)[token required] -> GET: `/:user_id/orders/active`
+  - response structure
+    ```
+        {
+            [order_id: string] : {
+                quantity: number,
+                product: Product
+            }[]
+        }
+    ```
+  
+  - sample response
+    ```
+        {
+            "6": [
+                {
+                    "quantity": 5,
+                    "product": {
+                        "id": 2,
+                        "name": "Cornelly Cone Ice Cream",
+                        "price": "40",
+                        "category": "snacks"
+                    }
+                },
+                {
+                    "quantity": 1,
+                    "product": {
+                        "id": 3,
+                        "name": "Coca Cola 1 Litre",
+                        "price": "50",
+                        "category": "Soft Drink"
+                    }
+                }
+            ]
+        }
+    ```
+- Create Order -> POST: `/:user_id/orders`
+  - request body
+    ```
+        {
+            product_id: number, 
+            quantity: number
+        }[]
+    ```
+
+  - sample response
+    ```
+        {
+            id: 6,
+            user_id: 1,
+            status: "active"
+        }
+    ```
+
+- Complete an Order -> PUT: `/orders/:order_id/complete`
+  - sample response  
+    ```
+        {
+            id: 6,
+            user_id: 1,
+            status: "active"
+        }
+    ```
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
 
 ## Data Shapes
 #### Product
--  id
-- name
-- price
-- [OPTIONAL] category
+```
+TABLE: products
+    id: integer, auto incrimenting, PK;
+    name: varchar, length 100;
+    price: varchar, length 30;
+    category: varchar, length 50;
+```
 
 #### User
-- id
-- firstName
-- lastName
-- password
+```
+TABLE: users
+    id: integer, auto incrimenting, PK;
+    firstname: varchar, length 100;
+    lastname: varchar, length 100;
+    password_hash: long text;
+```
 
 #### Orders
-- id
-- id of each product in the order
-- quantity of each product in the order
-- user_id
-- status of order (active or complete)
+```
+TABLE: orders
+    id: integer, auto incrimenting, PK;
+    status: varchar, length 8;
+    user_id: integer, FK references users:id;
+```
 
+#### Order Products
+```
+TABLE: order_products
+    id: integer, auto incrimenting, PK;
+    order_id: integer, FK references orders:id;
+    product_id: integer, FK references products:id;
+    quantity: small integer
+```

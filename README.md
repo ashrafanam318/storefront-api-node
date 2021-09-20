@@ -4,25 +4,25 @@
 - inside the project directory and create a files named `.env`
 - inside the `.env` file, define all the environment variables listed below -
     ```
-        POSTGRES_PASSWORD
-        DB_USER
-        DB
-        DB_PASSWORD
-        DB_HOST
-        BYCRYPT_PASSWORD
-        SALT_ROUNDS
-        JWT_TOKEN_SECRET
+    POSTGRES_PASSWORD
+    DB_USER
+    DB
+    DB_PASSWORD
+    DB_HOST
+    BYCRYPT_PASSWORD
+    SALT_ROUNDS
+    JWT_TOKEN_SECRET
     ```
   example:
     ```
-        POSTGRES_PASSWORD=1234rtyu
-        DB_USER=storefront_user
-        DB=storefront_db
-        DB_PASSWORD=storefront1234rtyu
-        DB_HOST=localhost
-        BYCRYPT_PASSWORD=shakil@ash
-        SALT_ROUNDS=10
-        JWT_TOKEN_SECRET=shakil@ash
+    POSTGRES_PASSWORD=1234rtyu
+    DB_USER=storefront_user
+    DB=storefront_db
+    DB_PASSWORD=storefront1234rtyu
+    DB_HOST=localhost
+    BYCRYPT_PASSWORD=shakil@ash
+    SALT_ROUNDS=10
+    JWT_TOKEN_SECRET=shakil@ash
     ```
 - Assuming Docker is installed, run `docker-compose up -d` and open the interactive terminal of active postgres container.
   Inide the termal window run the following, 
@@ -36,3 +36,6 @@
 
 ### Run App
  - in the terminal run `npm run watch`
+
+### API Endpoints
+look in to `REQUIREMENTS.md`

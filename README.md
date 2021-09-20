@@ -32,6 +32,7 @@
   - `CREATE USER <value of DB_USER in .env file> WITH PASSWORD '<value of DB_PASSWORD in .env file>';`
   - `GRANT ALL PRIVILEGES ON DATABASE <created database> TO <created user>;`
 - run `npm install` to download the node dependencies
+- run `npm i db-migrate -g` to gobally install db-migrate
 - run `db-migrate up` to create the database schema in the database;
 
 ### Run App

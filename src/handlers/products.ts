@@ -1,6 +1,7 @@
 import express from "express";
 import ProductStore from "../models/product";
 import type {Product} from "../models/product";
+import { authenticate } from "../middlewares/auth";
 
 const store = new ProductStore();
 
@@ -41,5 +42,5 @@ const create = async (req: express.Request, res: express.Response) => {
 export default (app: express.Application) => {
     app.get("/products", index);
     app.get("/products/:id", show);
-    app.post("/products", create);
+    app.post("/products", authenticate, create);
 };

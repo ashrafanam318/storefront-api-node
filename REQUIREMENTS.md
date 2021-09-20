@@ -25,7 +25,7 @@ These are the notes from a meeting with the frontend developer that describe wha
         ]
     ```
 
-- Show -> GET: `products/:id`
+- Show -> GET: `/products/:id`
    - sample response 
 
      ```
@@ -36,7 +36,13 @@ These are the notes from a meeting with the frontend developer that describe wha
             "category": "Soft Drink"
         }
      ```
-- Create [token required] -> POST: `products/`
+- Create [token required] -> POST: `/products`
+  - request headers
+    ```
+        {
+            "Authorization": "jwt <jwt token>"
+        }
+    ```
   - request body
     ```
         {
@@ -60,6 +66,12 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 #### Users
 - Index [token required] GET: `/users`
+  - request headers
+    ```
+        {
+            "Authorization": "jwt <jwt token>"
+        }
+    ```  
   - sample response
 
     ```
@@ -67,52 +79,88 @@ These are the notes from a meeting with the frontend developer that describe wha
             {
                 "id": 1,
                 "firstname": "John",
-                "lastname": "Doe"
+                "lastname": "Doe",
+                "username": "john1"
             },
             {
                 "id": 2,
                 "firstname": "John",
-                "lastname": "Doe The II"
+                "lastname": "Doe The II",
+                "username": "john2"
             }
         ]
     ```
 
-- Show [token required] -> GET: `users/:id`
+- Show [token required] -> GET: `/users/:id`
+  - request headers
+    ```
+        {
+            "Authorization": "jwt <jwt token>"
+        }
+    ```
    - sample response 
 
      ```
         {
             "id": 1,
             "firstname": "John",
-            "lastname": "Doe"
+            "lastname": "Doe",
+            "username": "john1"
         }
      ```
-- Create N[token required] -> POST: `users/`
+- Create (returns new jwt token) -> POST: `/users`
   - request body
     ```
         {
             firstname: string,
-            lastname: string
+            lastname: string,
+            username: "string",
+            password: "string"
         }
     ```
 
   - sample response
     ```
         {
-            "id": 1,
-            "firstname": "John",
-            "lastname": "Doe"
+            "jwt": "eyJhbGciOiJsdfllsjrI1nR5dfsfcCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJ1c2VybmFtZSI6InByaXRsdflsjf3IiwiZmlyc3RuYW1lIjoiUnVsIiwibGFzdG5hbWUiOiJBbmsdfsdf0sImlhdCI6MTYzMjEyNTQyNn0.RbxQz25lAhm1Z4FZCBf6ipEekslrtcIEnJ9lPJspkULI"
+        }
+    ```
+
+- Sign in (returns new jwt token) -> POST: `/users/signin`
+  - request body
+    ```
+        {
+            username: "string",
+            password: "string"
+        }
+    ```
+
+  - sample response
+    ```
+        {
+            "jwt": "eyJhbGciOiJsdfllsjrI1nR5dfsfcCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJ1c2VybmFtZSI6InByaXRsdflsjf3IiwiZmlyc3RuYW1lIjoiUnVsIiwibGFzdG5hbWUiOiJBbmsdfsdf0sImlhdCI6MTYzMjEyNTQyNn0.RbxQz25lAhm1Z4FZCBf6ipEekslrtcIEnJ9lPJspkULI"
         }
     ```
 #### Orders
 - Current Order by user (args: user id)[token required] -> GET: `/:user_id/orders/active`
+  - request headers
+    ```
+        {
+            "Authorization": "jwt <jwt token>"
+        }
+    ```
   - response structure
     ```
         {
-            [order_id: string] : {
+            [order_id: string] : Array<{
                 quantity: number,
-                product: Product
-            }[]
+                product: {
+                    id: integer,
+                    name: string,
+                    price: string,
+                    category: string
+                }
+            }>
         }
     ```
   
@@ -142,12 +190,20 @@ These are the notes from a meeting with the frontend developer that describe wha
         }
     ```
 - Create Order -> POST: `/:user_id/orders`
-  - request body
+  
+  - request headers
     ```
         {
+            "Authorization": "jwt <jwt token>"
+        }
+    ```
+
+  - request body
+    ```
+        Array<{
             product_id: number, 
             quantity: number
-        }[]
+        }>
     ```
 
   - sample response
@@ -160,12 +216,18 @@ These are the notes from a meeting with the frontend developer that describe wha
     ```
 
 - Complete an Order -> PUT: `/orders/:order_id/complete`
+  - request headers
+    ```
+        {
+            "Authorization": "jwt <jwt token>"
+        }
+    ```
   - sample response  
     ```
         {
             id: 6,
             user_id: 1,
-            status: "active"
+            status: "complete"
         }
     ```
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
@@ -186,6 +248,7 @@ TABLE: users
     id: integer, auto incrimenting, PK;
     firstname: varchar, length 100;
     lastname: varchar, length 100;
+    username: varchar, length 50;
     password_hash: long text;
 ```
 

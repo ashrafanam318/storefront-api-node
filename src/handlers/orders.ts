@@ -1,6 +1,7 @@
 import express from "express";
 import OrderStore from "../models/order";
 import type {Order, OrderItem} from "../models/order";
+import { authenticate } from "../middlewares/auth";
 
 const store = new OrderStore();
 
@@ -38,7 +39,7 @@ const completeOrder = async(req: express.Request, res: express.Response) => {
 }
 
 export default (app: express.Application) => {
-    app.get("/:user_id/orders/active", showCurrentOrderByUser);
-    app.post("/:user_id/orders", create);
-    app.put('/orders/:order_id/complete', completeOrder);
+    app.get("/:user_id/orders/active", authenticate, showCurrentOrderByUser);
+    app.post("/:user_id/orders", authenticate, create);
+    app.put('/orders/:order_id/complete', authenticate, completeOrder);
 };

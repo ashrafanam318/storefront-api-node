@@ -6,7 +6,7 @@ services:
     ports:
       - '5432:5432'
     env_file:
-      - pg-docker.env
+      - .env
     volumes:
       - 'postgres:/var/lib/postgresql/data'
 

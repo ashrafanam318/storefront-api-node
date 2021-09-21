@@ -268,3 +268,9 @@ TABLE: order_products
     product_id: integer, FK references products:id;
     quantity: small integer
 ```
+
+
+## DB Schema
+
+
+

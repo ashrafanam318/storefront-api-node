@@ -48,4 +48,4 @@
 - in the terminal run `npm test`
 
 ### API Endpoints
-look in to `REQUIREMENTS.md`
+look in `REQUIREMENTS.md`
